@@ -2,7 +2,12 @@ import React from 'react';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+import {
+	useForm,
+	Controller,
+	SubmitHandler,
+	useFormState,
+} from 'react-hook-form';
 import './AuthForm.css';
 
 interface ISignInForm {
@@ -14,6 +19,10 @@ interface ISignInForm {
 
 const AuthForm: React.FC = () => {
 	const { handleSubmit, control } = useForm<ISignInForm>();
+	const { errors } = useFormState({
+		control,
+	});
+
 	const onSubmit: SubmitHandler<ISignInForm> = (data) => console.log(data);
 
 	return (
@@ -32,6 +41,7 @@ const AuthForm: React.FC = () => {
 				<Controller
 					control={control}
 					name="login"
+					rules={{ required: 'Обязательное поле' }}
 					render={({ field }) => (
 						<TextField
 							label="Логин"
@@ -41,12 +51,15 @@ const AuthForm: React.FC = () => {
 							fullWidth
 							onChange={(e) => field.onChange(e)}
 							value={field.value}
+							error={!!errors.login?.message}
+							helperText={errors.login?.message}
 						/>
 					)}
 				/>
 				<Controller
 					control={control}
 					name="password"
+					rules={{ required: 'Обязательное поле' }}
 					render={({ field }) => (
 						<TextField
 							label="Пароль"
@@ -57,6 +70,8 @@ const AuthForm: React.FC = () => {
 							fullWidth
 							onChange={(e) => field.onChange(e)}
 							value={field.value}
+							error={!!errors.password?.message}
+							helperText={errors.password?.message}
 						/>
 					)}
 				/>
@@ -100,3 +115,4 @@ export default AuthForm;
 //обернули в контроллер и настроили
 //onChange={(e) => field.onChange(e)}
 // value={field.value}
+// для валидации rules в контрол и errors, helperText(тут ошибка текст) из  TextFielda
