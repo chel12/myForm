@@ -9,6 +9,10 @@ import {
 	useFormState,
 } from 'react-hook-form';
 import './AuthForm.css';
+import {
+	loginValidation,
+	passwordValidation,
+} from '../validations/validations';
 
 interface ISignInForm {
 	//типы для формы
@@ -41,7 +45,7 @@ const AuthForm: React.FC = () => {
 				<Controller
 					control={control}
 					name="login"
-					rules={{ required: 'Обязательное поле' }}
+					rules={loginValidation}
 					render={({ field }) => (
 						<TextField
 							label="Логин"
@@ -50,7 +54,7 @@ const AuthForm: React.FC = () => {
 							className="auth-form__input"
 							fullWidth
 							onChange={(e) => field.onChange(e)}
-							value={field.value}
+							value={field.value || ''}
 							error={!!errors.login?.message}
 							helperText={errors.login?.message}
 						/>
@@ -59,7 +63,7 @@ const AuthForm: React.FC = () => {
 				<Controller
 					control={control}
 					name="password"
-					rules={{ required: 'Обязательное поле' }}
+					rules={passwordValidation}
 					render={({ field }) => (
 						<TextField
 							label="Пароль"
@@ -69,7 +73,7 @@ const AuthForm: React.FC = () => {
 							className="auth-form__input"
 							fullWidth
 							onChange={(e) => field.onChange(e)}
-							value={field.value}
+							value={field.value || ''}
 							error={!!errors.password?.message}
 							helperText={errors.password?.message}
 						/>
