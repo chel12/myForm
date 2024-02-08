@@ -2,12 +2,19 @@ import React from 'react';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import './AuthForm.css';
 
+interface ISignInForm {
+	//типы для формы
+	login: string;
+	password: string;
+}
+//SubmitHandler тип для сабмита и туда   тип формы вставляем
+
 const AuthForm: React.FC = () => {
-	const { handleSubmit, control } = useForm();
-	const onSubmit = () => console.log('data');
+	const { handleSubmit, control } = useForm<ISignInForm>();
+	const onSubmit: SubmitHandler<ISignInForm> = (data) => console.log(data);
 
 	return (
 		<div className="auth-form">
